@@ -1,5 +1,12 @@
 from math import *
-g = 9.8;
+g = 9.8; #(m/s^2)
+
+#função de coleta dos parâmetros
+def parametros():
+    v0 = float(input("Insira a Velocidade inicial (m/s): "));
+    ang = float(input("Insira a Ângulo inicial (°): "));
+    altura = float(input("Insira a Altura inicial (cm): "));
+    return v0, ang, altura;
 
 ## Calcule as componentes nos eixos x e y da velocidade inicial da bola.
 def componentes():
@@ -45,8 +52,17 @@ def posicao():
     posY = v0y*tempo - g*tempo*tempo/2 + altura/100;
     print("Posição em X:",round(posX,2));
     print("Posição em Y:",round(posY,2));
+    ##lembrar de adicionar a condição do TempoAr
 
+def alturaMax():
+    v0 = float(input("Insira a Velocidade inicial (m/s): "));
+    ang = float(input("Insira a Ângulo inicial (°): "));
+    altura = float(input("Insira a Altura inicial (cm): "));
+    v0y = sin(ang*pi/180)*v0;
+    altMax = (v0y*v0y)/2*g + (altura/100);
+    print("Altura máxima atingida foi de %.2f m"% round(altMax,2));
 
-posicao();
+alturaMax();
+##posicao();
 ##componentes();
 ##tempAr();
