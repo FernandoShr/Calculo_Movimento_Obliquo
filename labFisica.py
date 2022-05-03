@@ -23,7 +23,7 @@ def componentes():
 def tempAr():
     v0 = float(input("Insira a Velocidade inicial (m/s): "));
     ang = float(input("Insira a Ângulo inicial (°): "));
-    altura = float(input("Insira a Altura inicial (cm): "));
+    altura = float(input("Insira a Altura da bola ao chão (cm): "));
     v0y = sin(ang*pi/180)*v0;
     delta = v0y*v0y - 4*(-g/2)*(altura/100);
     tSobra1 = (v0y + sqrt(delta))/(-g);
@@ -59,10 +59,34 @@ def alturaMax():
     ang = float(input("Insira a Ângulo inicial (°): "));
     altura = float(input("Insira a Altura inicial (cm): "));
     v0y = sin(ang*pi/180)*v0;
-    altMax = (v0y*v0y)/2*g + (altura/100);
+    altMax = (v0y*v0y)/(2*g) + (altura/100);
     print("Altura máxima atingida foi de %.2f m"% round(altMax,2));
 
-alturaMax();
+def alcanceMax():
+    v0 = float(input("Insira a Velocidade inicial (m/s): "));
+    ang = float(input("Insira a Ângulo inicial (°): "));
+    altura = float(input("Insira a Altura inicial (cm): "));
+   
+    v0y = sin(ang*pi/180)*v0;
+    delta = v0y*v0y - 4*(-g/2)*(altura/100);
+    tSobra1 = (v0y + sqrt(delta))/(-g);
+    tSobra2 = (v0y - sqrt(delta))/(-g);
+
+    tsobra = 0;
+
+    if tSobra1 > 0:
+        tsobra = tSobra1;
+    elif tSobra2 > 0:
+        tsobra = tSobra2;
+
+    alcsobra = cos(ang*pi/180)*v0*tsobra;
+
+    alcMax = (sin(2*(ang*pi/180))*v0*v0)/g + alcsobra;
+
+    print("O alcance Máximo obtido foi de %.2f m" % round(alcMax,2));
+
+alcanceMax();
+##alturaMax();
 ##posicao();
 ##componentes();
 ##tempAr();
