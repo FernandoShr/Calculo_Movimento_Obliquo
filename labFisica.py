@@ -9,10 +9,6 @@ def parametros():
     ang = float(input("Insira o Ângulo inicial (°):\n"));
     altura = float(input("Insira a Altura em relação ao solo (cm):\n"));
     return v0, ang, altura;
-def componenParame(v0, ang):
-    v0x = cos(ang*pi/180)*v0;
-    v0y = sin(ang*pi/180)*v0;
-    return v0x, v0y;
 def pegaparametro(nome, unidade):
     if nome == "Ângulo inicial" or nome == "Tempo":
         var = input("Insira o {0} ({1}):\n"  .format(nome, unidade));
@@ -23,17 +19,11 @@ def pegaparametro(nome, unidade):
 #------------------------------------------------------------------//---------------------------------------------------------
 #Funções de cáculos
 
-
-## Calcule as componentes nos eixos x e y da velocidade inicial da bola.
-def componentes():
-    v0 = float(pegaparametro("Velocidade inicial","m/s"));
-    ang = float(pegaparametro("Ângulo inicial", "°"));
-    
-    v0x, v0y = componenParame(v0,ang);
-    
-    print("A componente Vx da velocidade inicial possue módulo:", round(v0x,2));
-    print("A componente Vy da velocidade inicial possue módulo:", round(v0y,2));
-    input("\nPressione 'Enter' para continuar")
+#calcula as componentes da velocidade inicial
+def componenParame(v0, ang):
+    v0x = cos(ang*pi/180)*v0;
+    v0y = sin(ang*pi/180)*v0;
+    return v0x, v0y;
 
 #calcula o tempo em que o objeto permance no ar
 def calcTempAr(v0y, altura):
@@ -53,6 +43,22 @@ def calcTempAr(v0y, altura):
 
     return tempoNoAr
 
+#------------------------------------------------------------------//---------------------------------------------------------
+#Funções de impressão dos dados
+
+
+# Função das componentes nos eixos x e y da velocidade inicial do objeto.
+def componentes():
+    v0 = float(pegaparametro("Velocidade inicial","m/s"));
+    ang = float(pegaparametro("Ângulo inicial", "°"));
+    
+    v0x, v0y = componenParame(v0,ang);
+    
+    print("A componente Vx da velocidade inicial possue módulo:", round(v0x,2));
+    print("A componente Vy da velocidade inicial possue módulo:", round(v0y,2));
+    input("\nPressione 'Enter' para continuar")
+
+
 ## Função tempo em que a bola permanece no ar.
 def tempAr():
     v0, ang, altura = parametros();
@@ -63,7 +69,7 @@ def tempAr():
     print("O tempo em que a bola permanece no ar é de: %.2f segundos" % tempoNoAr);
     input("\nPressione 'Enter' para continuar")
 
-## Encontrar a posição da bola em qualquer instante t
+## Função da posição do objeto em qualquer instante t
 def posicao():
     v0 = float(pegaparametro("Velocidade inicial", "m/s"))
     ang = float(pegaparametro("Ângulo inicial", "°"))
@@ -87,6 +93,7 @@ def posicao():
     input("\nPressione 'Enter' para continuar")
     ##lembrar de adicionar a condição do TempoAr
 
+#Função da altura máxima atingida do objeto
 def alturaMax():
     v0, ang, altura = parametros();
 
@@ -95,6 +102,7 @@ def alturaMax():
     print("Altura máxima atingida foi de %.2f m"% round(altMax,2));
     input("\nPressione 'Enter' para continuar")
 
+#Função do alcance máximo horizontal obtido pelo objeto
 def alcanceMax():
     v0, ang, altura = parametros();
    
@@ -117,6 +125,7 @@ def alcanceMax():
     print("O alcance máximo obtido foi de %.2f m" % round(alcMax,2));
     input("\nPressione 'Enter' para continuar")
 
+#Função das velocidades em qualquer instante t
 def velocidades():
     v0 = float(pegaparametro('Velocidade inicial', "m/s"));
     ang = float(pegaparametro('Ângulo inicial', "°"));
@@ -128,6 +137,7 @@ def velocidades():
     print("A Velocidade, no instante {0:.2f}s, é: {1:.2f} m/s \nCom componentes Vy = {2:.2f} m/s e Vx = {3:.2f} m/s".format(tempo, vt, vy, vx));
     input("\nPressione 'Enter' para continuar")
 
+#Função da velocidade no momento da altura máxima
 def veloAltMax():
     v0 = float(pegaparametro("Velocidade inicial", "m/s"))
     ang = float(pegaparametro("Ângulo inicial", "°"))
@@ -137,7 +147,9 @@ def veloAltMax():
     print("A Velocidade no momento da altura máxima (no instante {0:.2f}s) possue módulo {1:.2f} m/s\nCom componentes Vy = 0.00 m/s e Vx = {2:.2f} m/s".format(tempo, v0x, v0x));
     input("\nPressione 'Enter' para continuar")
 
+#------------------------------------------------------------------//---------------------------------------------------------
 
+#menu de opções do programa
 def menu():
     while True:
         print("\n-----------------Menu-----------------");
