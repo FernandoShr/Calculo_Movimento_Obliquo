@@ -1,9 +1,9 @@
-#CÓDIGO PARA ESTUDO DE UM OBJETO EM MOVIMENTO OBLÍQUO (SISTEMA IDEAL)
+# CÓDIGO PARA ESTUDO DE UM OBJETO EM MOVIMENTO OBLÍQUO (SISTEMA IDEAL)
 from math import *
 g = 9.8; #(m/s^2)
 
 
-#Funções de coleta dos parâmetros
+# Funções de coleta dos parâmetros
 
 def parametros():
     v0 = float(input("Insira a Velocidade inicial (m/s):\n"));
@@ -18,16 +18,18 @@ def pegaparametro(nome, unidade):
     return var;
 
 #------------------------------------------------------------------//---------------------------------------------------------
-#Funções de cáculos
+# Funções de cáculos
 
-#calcula as componentes da velocidade inicial
+
+# calcula as componentes da velocidade inicial
 def componenParame(v0, ang):
     v0x = cos(ang*pi/180)*v0;
     v0y = sin(ang*pi/180)*v0;
     return v0x, v0y;
 
-#calcula o tempo em que o objeto permance no ar
-def calcTempAr(v0y, altura):
+# calcula o tempo em que o objeto permance no ar
+def calcTempAr(v0, ang, altura):
+    v0y = sin(ang*pi/180)*v0;
     delta = v0y*v0y - 4*(-g/2)*(altura/100);
     tSobra1 = (v0y + sqrt(delta))/(-g);
     tSobra2 = (v0y - sqrt(delta))/(-g);
@@ -44,69 +46,21 @@ def calcTempAr(v0y, altura):
 
     return tempoNoAr
 
-#------------------------------------------------------------------//---------------------------------------------------------
-#Funções de impressão dos dados
-
-
-# Função das componentes nos eixos x e y da velocidade inicial do objeto.
-def componentes():
-    v0 = float(pegaparametro("Velocidade inicial","m/s"));
-    ang = float(pegaparametro("Ângulo inicial", "°"));
-    
+# calcula a posição do objeto em determinado tempo durante a trajetória
+def calcPosicao(v0, ang, altura, tempo):
     v0x, v0y = componenParame(v0,ang);
-    
-    print("A componente Vx da velocidade inicial possue módulo:", round(v0x,2));
-    print("A componente Vy da velocidade inicial possue módulo:", round(v0y,2));
-    input("\nPressione 'Enter' para continuar")
-
-
-## Função tempo em que a bola permanece no ar.
-def tempAr():
-    v0, ang, altura = parametros();
-    v0y = sin(ang*pi/180)*v0;
-    
-    tempoNoAr = round(calcTempAr(v0y, altura), 2)
-
-    print("O tempo em que a bola permanece no ar é de: %.2f segundos" % tempoNoAr);
-    input("\nPressione 'Enter' para continuar")
-
-## Função da posição do objeto em qualquer instante t
-def posicao():
-    v0 = float(pegaparametro("Velocidade inicial", "m/s"))
-    ang = float(pegaparametro("Ângulo inicial", "°"))
-    altura = float(pegaparametro("Altura em relação ao solo", "cm"))
-    tempo = float(pegaparametro("Tempo","s"));
-    v0x, v0y = componenParame(v0,ang);
-
-    bateu = False;
-    tempoAr = calcTempAr(v0y, altura);
-    if tempo >= tempoAr:
-        tempo = tempoAr;
-        bateu = True;
-
     posX = v0x*tempo;
     posY = v0y*tempo - g*tempo*tempo/2 + altura/100;
-    
-    if bateu:
-        print("O objeto atingiu o solo!");
-    print("Posição em X:",round(posX,2));
-    print("Posição em Y:",round(posY,2));
-    input("\nPressione 'Enter' para continuar")
-    ##lembrar de adicionar a condição do TempoAr
+    return posX, posY;
 
-#Função da altura máxima atingida do objeto
-def alturaMax():
-    v0, ang, altura = parametros();
-
+# calcula a altura máxima atingida pelo objeto durante a trajetória
+def calcAltMax(v0, ang, altura):
     v0y = sin(ang*pi/180)*v0;
     altMax = (v0y*v0y)/(2*g) + (altura/100);
-    print("Altura máxima atingida foi de %.2f m"% round(altMax,2));
-    input("\nPressione 'Enter' para continuar")
+    return altMax;
 
-#Função do alcance máximo horizontal obtido pelo objeto
-def alcanceMax():
-    v0, ang, altura = parametros();
-   
+# calcula o alcance horizontal máximo obtido pelo objeto até atingir o solo
+def calcAlcMax(v0, ang, altura):
     v0y = sin(ang*pi/180)*v0;
     delta = v0y*v0y - 4*(-g/2)*(altura/100);
     tSobra1 = (v0y + sqrt(delta))/(-g);
@@ -122,30 +76,107 @@ def alcanceMax():
     alcsobra = cos(ang*pi/180)*v0*tsobra;
 
     alcMax = (sin(2*(ang*pi/180))*v0*v0)/g + alcsobra;
+    return alcMax;
 
-    print("O alcance máximo obtido foi de %.2f m" % round(alcMax,2));
-    input("\nPressione 'Enter' para continuar")
-
-#Função das velocidades em qualquer instante t
-def velocidades():
-    v0 = float(pegaparametro('Velocidade inicial', "m/s"));
-    ang = float(pegaparametro('Ângulo inicial', "°"));
-    tempo = float(input("Insira o Tempo no qual deseja obter a velocidade desejada (s):\n"));
+# calcula a velocidade, e suas componentes, do objeto em qualquer instante durante a trajetória
+def calcVelocidades(v0, ang, tempo):
     v0x, v0y = componenParame(v0, ang);
     vy = v0y - g*tempo;
     vx = v0x;
     vt = sqrt((vx*vx) + (vy*vy));
-    print("A Velocidade, no instante {0:.2f}s, é: {1:.2f} m/s \nCom componentes Vy = {2:.2f} m/s e Vx = {3:.2f} m/s".format(tempo, vt, vy, vx));
+    return vt, vy, vx;
+
+#------------------------------------------------------------------//---------------------------------------------------------
+# Funções de impressão dos dados
+
+
+# Função para padronizar as mensagens de aviso no decorrer do código
+def mensagem(string):     
+    tamanho = len(string)  #nesta linha determino a quantidade de caracteres que terá a mensagem
+    print()
+    print("-"*tamanho)  #com isso posso padronizar as mensagens, a quantidade de travessões que separam as linhas vai ser a mesma de caracteres da mensagem
+    print(string)
+    print("-"*tamanho)
+    print() 
+
+# Função das componentes nos eixos x e y da velocidade inicial do objeto.
+def componentes():
+    v0 = float(pegaparametro("Velocidade inicial","m/s"));
+    ang = float(pegaparametro("Ângulo inicial", "°"));
+    
+    v0x, v0y = componenParame(v0,ang);
+    
+    print("A componente Vx da velocidade inicial possue módulo:", round(v0x,2));
+    print("A componente Vy da velocidade inicial possue módulo:", round(v0y,2));
     input("\nPressione 'Enter' para continuar")
 
-#Função da velocidade no momento da altura máxima
+# Função tempo em que a bola permanece no ar.
+def tempAr():
+    v0, ang, altura = parametros();
+    
+    tempoNoAr = round(calcTempAr(v0, ang, altura), 2)
+
+    print("\nO tempo em que a bola permanece no ar é de: %.2f segundos" % tempoNoAr);
+    input("\nPressione 'Enter' para continuar")
+
+# Função da posição do objeto em qualquer instante t
+def posicao():
+    v0, ang, altura = parametros();
+    tempo = float(pegaparametro("Tempo","s"));
+
+    bateu = False;
+    tempoAr = calcTempAr(v0, ang, altura);
+    if tempo > tempoAr:
+        tempo = tempoAr;
+        bateu = True;
+
+    posX, posY = calcPosicao(v0, ang, altura, tempo);
+    
+    print("");
+    if bateu:
+        print("O objeto atingiu o solo!");
+    print("Posição em X:",round(posX,2));
+    print("Posição em Y:",round(posY,2));
+    input("\nPressione 'Enter' para continuar");
+
+# Função da altura máxima atingida do objeto
+def alturaMax():
+    v0, ang, altura = parametros();
+    
+    altMax = calcAltMax(v0, ang, altura);
+
+    print("\nAltura máxima atingida foi de %.2f m"% round(altMax,2));
+    input("\nPressione 'Enter' para continuar")
+
+# Função do alcance máximo horizontal obtido pelo objeto
+def alcanceMax():
+    v0, ang, altura = parametros();
+    
+    alcMax = calcAlcMax(v0, ang, altura)
+
+    print("\nO alcance máximo obtido foi de %.2f m" % round(alcMax,2));
+    input("\nPressione 'Enter' para continuar")
+
+# Função das velocidades em qualquer instante t
+def velocidades():
+    v0 = float(pegaparametro('Velocidade inicial', "m/s"));
+    ang = float(pegaparametro('Ângulo inicial', "°"));
+    tempo = float(input("Insira o Tempo no qual deseja obter a velocidade desejada (s):\n"));
+
+    vt, vy, vx = calcVelocidades(v0, ang, tempo);
+
+    print("\nA Velocidade, no instante {0:.2f}s, é: {1:.2f} m/s \nCom componentes Vy = {2:.2f} m/s e Vx = {3:.2f} m/s".format(tempo, vt, vy, vx));
+    input("\nPressione 'Enter' para continuar")
+
+# Função da velocidade no momento da altura máxima
 def veloAltMax():
     v0 = float(pegaparametro("Velocidade inicial", "m/s"))
     ang = float(pegaparametro("Ângulo inicial", "°"))
+
     v0x,v0y = componenParame(v0, ang);
     tempo = (v0y/g);
 
-    print("A Velocidade no momento da altura máxima (no instante {0:.2f}s) possue módulo {1:.2f} m/s\nCom componentes Vy = 0.00 m/s e Vx = {2:.2f} m/s".format(tempo, v0x, v0x));
+    print("\nA Velocidade no momento da altura máxima (no instante {0:.2f}s) possue módulo {1:.2f} m/s\nCom componentes Vy = 0.00 m/s e Vx = {2:.2f} m/s".format(tempo, v0x, v0x));
     input("\nPressione 'Enter' para continuar")
 
 #------------------------------------------------------------------//---------------------------------------------------------
