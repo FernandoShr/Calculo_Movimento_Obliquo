@@ -90,15 +90,6 @@ def calcVelocidades(v0, ang, tempo):
 # Funções de impressão dos dados
 
 
-# Função para padronizar as mensagens de aviso no decorrer do código
-def mensagem(string):     
-    tamanho = len(string)  #nesta linha determino a quantidade de caracteres que terá a mensagem
-    print()
-    print("-"*tamanho)  #com isso posso padronizar as mensagens, a quantidade de travessões que separam as linhas vai ser a mesma de caracteres da mensagem
-    print(string)
-    print("-"*tamanho)
-    print() 
-
 # Função das componentes nos eixos x e y da velocidade inicial do objeto.
 def componentes():
     v0 = float(pegaparametro("Velocidade inicial","m/s"));
@@ -108,7 +99,7 @@ def componentes():
     
     print("A componente Vx da velocidade inicial possue módulo:", round(v0x,2));
     print("A componente Vy da velocidade inicial possue módulo:", round(v0y,2));
-    input("\nPressione 'Enter' para continuar")
+    input("\nPressione 'Enter' para retornar ao menu")
 
 # Função tempo em que a bola permanece no ar.
 def tempAr():
@@ -117,7 +108,7 @@ def tempAr():
     tempoNoAr = round(calcTempAr(v0, ang, altura), 2)
 
     print("\nO tempo em que a bola permanece no ar é de: %.2f segundos" % tempoNoAr);
-    input("\nPressione 'Enter' para continuar")
+    input("\nPressione 'Enter' para retornar ao menu")
 
 # Função da posição do objeto em qualquer instante t
 def posicao():
@@ -137,7 +128,7 @@ def posicao():
         print("O objeto atingiu o solo!");
     print("Posição em X:",round(posX,2));
     print("Posição em Y:",round(posY,2));
-    input("\nPressione 'Enter' para continuar");
+    input("\nPressione 'Enter' para retornar ao menu");
 
 # Função da altura máxima atingida do objeto
 def alturaMax():
@@ -146,7 +137,7 @@ def alturaMax():
     altMax = calcAltMax(v0, ang, altura);
 
     print("\nAltura máxima atingida foi de %.2f m"% round(altMax,2));
-    input("\nPressione 'Enter' para continuar")
+    input("\nPressione 'Enter' para retornar ao menu")
 
 # Função do alcance máximo horizontal obtido pelo objeto
 def alcanceMax():
@@ -155,7 +146,7 @@ def alcanceMax():
     alcMax = calcAlcMax(v0, ang, altura)
 
     print("\nO alcance máximo obtido foi de %.2f m" % round(alcMax,2));
-    input("\nPressione 'Enter' para continuar")
+    input("\nPressione 'Enter' para retornar ao menu")
 
 # Função das velocidades em qualquer instante t
 def velocidades():
@@ -166,7 +157,7 @@ def velocidades():
     vt, vy, vx = calcVelocidades(v0, ang, tempo);
 
     print("\nA Velocidade, no instante {0:.2f}s, é: {1:.2f} m/s \nCom componentes Vy = {2:.2f} m/s e Vx = {3:.2f} m/s".format(tempo, vt, vy, vx));
-    input("\nPressione 'Enter' para continuar")
+    input("\nPressione 'Enter' para retornar ao menu")
 
 # Função da velocidade no momento da altura máxima
 def veloAltMax():
@@ -177,7 +168,7 @@ def veloAltMax():
     tempo = (v0y/g);
 
     print("\nA Velocidade no momento da altura máxima (no instante {0:.2f}s) possue módulo {1:.2f} m/s\nCom componentes Vy = 0.00 m/s e Vx = {2:.2f} m/s".format(tempo, v0x, v0x));
-    input("\nPressione 'Enter' para continuar")
+    input("\nPressione 'Enter' para retornar ao menu")
 
 #------------------------------------------------------------------//---------------------------------------------------------
 
@@ -214,6 +205,6 @@ def menu():
             posicao();
         else:
             print("\nErro! Por favor, selecione uma das opções solicitadas")
-            input("\nPressione 'Enter' para continuar")
+            input("\nPressione 'Enter' para retornar ao menu")
 
 menu()
