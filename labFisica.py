@@ -1,3 +1,4 @@
+#CÓDIGO PARA ESTUDO DE UM OBJETO EM MOVIMENTO OBLÍQUO (SISTEMA IDEAL)
 from math import *
 g = 9.8; #(m/s^2)
 
