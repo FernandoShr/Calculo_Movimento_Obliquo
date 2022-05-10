@@ -27,7 +27,7 @@ def componenParame(v0, ang):
     v0y = sin(ang*pi/180)*v0;
     return v0x, v0y;
 
-# calcula o tempo em que o objeto permance no ar
+# calcula o tempo em que o objeto permanece no ar
 def calcTempAr(v0, ang, altura):
     v0y = sin(ang*pi/180)*v0;
     delta = v0y*v0y - 4*(-g/2)*(altura/100);
