@@ -97,17 +97,18 @@ def componentes():
     
     v0x, v0y = componenParame(v0,ang);
     
-    print("A componente Vx da velocidade inicial possue módulo:", round(v0x,2));
-    print("A componente Vy da velocidade inicial possue módulo:", round(v0y,2));
+    print('');
+    print("A componente Vx da velocidade inicial possui módulo:", round(v0x,2));
+    print("A componente Vy da velocidade inicial possui módulo:", round(v0y,2));
     input("\nPressione 'Enter' para retornar ao menu")
 
 # Função tempo em que a bola permanece no ar.
 def tempAr():
     v0, ang, altura = parametros();
     
-    tempoNoAr = round(calcTempAr(v0, ang, altura), 2)
+    tempoNoAr = calcTempAr(v0, ang, altura);    
 
-    print("\nO tempo em que a bola permanece no ar é de: %.2f segundos" % tempoNoAr);
+    print("\nO tempo em que a bola permanece no ar é de: %.2f segundos" % round(tempoNoAr,2));
     input("\nPressione 'Enter' para retornar ao menu")
 
 # Função da posição do objeto em qualquer instante t
@@ -156,7 +157,7 @@ def velocidades():
 
     vt, vy, vx = calcVelocidades(v0, ang, tempo);
 
-    print("\nA Velocidade, no instante {0:.2f}s, é: {1:.2f} m/s \nCom componentes Vy = {2:.2f} m/s e Vx = {3:.2f} m/s".format(tempo, vt, vy, vx));
+    print("\nA Velocidade, no instante {0:.2f}s, é: {1:.2f} m/s \nCom componentes Vx = {2:.2f} m/s e Vy = {3:.2f} m/s".format(tempo, vt, vx, vy));
     input("\nPressione 'Enter' para retornar ao menu")
 
 # Função da velocidade no momento da altura máxima
@@ -167,12 +168,66 @@ def veloAltMax():
     v0x,v0y = componenParame(v0, ang);
     tempo = (v0y/g);
 
-    print("\nA Velocidade no momento da altura máxima (no instante {0:.2f}s) possue módulo {1:.2f} m/s\nCom componentes Vy = 0.00 m/s e Vx = {2:.2f} m/s".format(tempo, v0x, v0x));
+    print("\nA Velocidade no momento da altura máxima (no instante {0:.2f}s) possui módulo {1:.2f} m/s\nCom componentes Vx = {2:.2f} m/s e Vy = 0.00 m/s".format(tempo, v0x, v0x));
     input("\nPressione 'Enter' para retornar ao menu")
 
+def veloAntesSolo():
+    v0, ang, altura = parametros();
+    tempoNoAr = calcTempAr(v0, ang, altura);
+
+    vt, vy, vx = calcVelocidades (v0, ang, tempoNoAr);
+
+    print("\nA Velocidade, imediatamente antes de alcançar o solo, é: {0:.2f} m/s \nCom componentes Vx = {1:.2f} m/s e Vy = {2:.2f} m/s".format(vt, vx, vy));
+    input("\nPressione 'Enter' para retornar ao menu")
+
+# Função para imprimir todas as opções
+def tudo():
+    # Definição de variáveis
+    v0, ang, altura = parametros();
+    tempo = float(input("Insira o Tempo no qual deseja obter a velocidade e a posição (s):\n"));
+    
+    print('');
+    # Componentes da velocidade inicial
+    v0x, v0y = componenParame(v0,ang);
+    print("A componente Vx da velocidade inicial possui módulo:", round(v0x,2));
+    print("A componente Vy da velocidade inicial possui módulo:", round(v0y,2));
+
+    # Tempo em que o objeto permanece no ar
+    tempoNoAr = calcTempAr(v0, ang, altura);
+    print("\nO tempo em que a bola permanece no ar é de: %.2f segundos" % round(tempoNoAr,2));
+
+    # Posição no instante desejado
+    posX, posY = calcPosicao(v0, ang, altura, tempo);
+    print("");
+    print("Posição em X:",round(posX,2));
+    print("Posição em Y:",round(posY,2));
+
+    # Velocidade no instante desejado 
+    vt, vy, vx = calcVelocidades(v0, ang, tempo);
+    print("\nA Velocidade, no instante {0:.2f}s, é: {1:.2f} m/s \nCom componentes Vx = {2:.2f} m/s e Vy = {3:.2f} m/s".format(tempo, vt, vx, vy));
+
+    # Altura máxima atingida
+    altMax = calcAltMax(v0, ang, altura);
+    print("\nAltura máxima atingida foi de %.2f m"% round(altMax,2));
+
+    # Alcance máximo obtido
+    alcMax = calcAlcMax(v0, ang, altura)
+    print("\nO alcance máximo obtido foi de %.2f m" % round(alcMax,2));
+
+    # Velocidade imediatamente antes de alcançar o solo
+    vt, vy, vx = calcVelocidades(v0, ang, tempoNoAr);
+    print("\nA Velocidade, imediatamente antes de alcançar o solo, é: {0:.2f} m/s \nCom componentes Vx = {1:.2f} m/s e Vy = {2:.2f} m/s".format(vt, vx, vy));
+
+    # Velocidade e instante na altura máxima
+    v0x,v0y = componenParame(v0, ang);
+    tempo = (v0y/g);
+    print("\nA Velocidade no momento da altura máxima (no instante {0:.2f}s) possui módulo {1:.2f} m/s\nCom componentes Vx = {2:.2f} m/s e Vy = 0.00 m/s".format(tempo, v0x, v0x));
+
+    # Fim;
+    input("\nPressione 'Enter' para retornar ao menu");
 #------------------------------------------------------------------//---------------------------------------------------------
 
-#menu de opções do programa
+# menu de opções do programa
 def menu():
     while True:
         print("\n-----------------Menu-----------------");
@@ -183,6 +238,8 @@ def menu():
         print("5 - Velocidade, e suas componentes, em qualquer instante t")
         print("6 - Velocidade, e suas componentes, no instante da altura máxima")
         print("7 - Posição em qualquer instante t")
+        print("8 - Velocidade, e suas componentes, imediatamente antes de atingir o solo")
+        print("9 - Mostrar todas as opções")
         print("")
         print("0 - Sair")
         print("")
@@ -203,6 +260,10 @@ def menu():
             veloAltMax();
         elif opcao == '7':
             posicao();
+        elif opcao == '8':
+            veloAntesSolo();
+        elif opcao == '9':
+            tudo();
         else:
             print("\nErro! Por favor, selecione uma das opções solicitadas")
             input("\nPressione 'Enter' para retornar ao menu")
