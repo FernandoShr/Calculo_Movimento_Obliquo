@@ -171,6 +171,7 @@ def veloAltMax():
     print("\nA Velocidade no momento da altura máxima (no instante {0:.2f}s) possui módulo {1:.2f} m/s\nCom componentes Vx = {2:.2f} m/s e Vy = 0.00 m/s".format(tempo, v0x, v0x));
     input("\nPressione 'Enter' para retornar ao menu")
 
+# Função da velocidade imediatamente antes do objeto atingir o solo
 def veloAntesSolo():
     v0, ang, altura = parametros();
     tempoNoAr = calcTempAr(v0, ang, altura);
@@ -232,12 +233,12 @@ def menu():
     while True:
         print("\n-----------------Menu-----------------");
         print("1 - Componentes da Velocidade Inicial")
-        print("2 - Altura máxima atingida")
-        print("3 - Alcance máximo obtido")
-        print("4 - Tempo total no ar")
-        print("5 - Velocidade, e suas componentes, em qualquer instante t")
-        print("6 - Velocidade, e suas componentes, no instante da altura máxima")
-        print("7 - Posição em qualquer instante t")
+        print("2 - Tempo total no ar")
+        print("3 - Posição em qualquer instante t")
+        print("4 - Altura máxima atingida")
+        print("5 - Alcance máximo obtido")
+        print("6 - Velocidade, e suas componentes, em qualquer instante t")
+        print("7 - Velocidade, e suas componentes, no instante da altura máxima")
         print("8 - Velocidade, e suas componentes, imediatamente antes de atingir o solo")
         print("9 - Mostrar todas as opções")
         print("")
@@ -249,17 +250,17 @@ def menu():
         elif opcao == '1':
             componentes();
         elif opcao == '2':
-            alturaMax();
-        elif opcao == '3':
-            alcanceMax();
-        elif opcao == '4':
             tempAr();
-        elif opcao == '5':
-            velocidades();
-        elif opcao == '6':
-            veloAltMax();
-        elif opcao == '7':
+        elif opcao == '3':
             posicao();
+        elif opcao == '4':
+            alturaMax();
+        elif opcao == '5':
+            alcanceMax();
+        elif opcao == '6':
+            velocidades();
+        elif opcao == '7':
+            veloAltMax();
         elif opcao == '8':
             veloAntesSolo();
         elif opcao == '9':
