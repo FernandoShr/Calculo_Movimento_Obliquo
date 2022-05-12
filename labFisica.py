@@ -1,4 +1,8 @@
 # CÓDIGO PARA ESTUDO DE UM OBJETO EM MOVIMENTO OBLÍQUO (SISTEMA IDEAL)
+# AUTOR: FERNANDO SHIRAISHI DE ALMEIDA
+# (^.^)
+
+#------------------------------------------------------------------//---------------------------------------------------------
 from math import *
 g = 9.8; #(m/s^2)
 
